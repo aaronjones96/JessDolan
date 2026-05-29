@@ -5,12 +5,14 @@ interface GalleryImage {
 }
 
 interface Props {
+  title?: string;
   images?: GalleryImage[];
   initialVisible?: number;
   columns?: 2 | 3 | 4;
 }
 
 const {
+  title,
   images = [],
   initialVisible = 8,
   columns = 4
@@ -26,11 +28,17 @@ const hasMore = images.length > initialVisible;
 ---
 
 <div class="gallery-container max-w-360 mx-auto px-8">
-  <div class="border-b py-8 border-base-200">
-    <div
-      class={`gallery-grid grid grid-cols-1 ${gridColsClass} gap-4`}
-      data-initial-visible={initialVisible}
-    >
+  <div class="grid grid-cols-1 md:grid-cols-3 border-b py-8 border-base-200">
+    {title && (
+      <div class="lg:sticky lg:top-24 lg:z-40 self-start mb-6 md:mb-0">
+        <h2 class="text-sm 2xl:text-xl text-base-900 font-bold uppercase">{title}</h2>
+      </div>
+    )}
+    <div class={title ? "md:col-span-2" : "md:col-span-3"}>
+      <div
+        class={`gallery-grid grid grid-cols-1 ${gridColsClass} gap-4`}
+        data-initial-visible={initialVisible}
+      >
     {images.map((image, index) => (
       <figure
         class:list={[
@@ -57,16 +65,17 @@ const hasMore = images.length > initialVisible;
   </div>
 
   {hasMore && (
-    <div class="mt-6 text-center">
-      <button
-        type="button"
-        class="gallery-toggle text-xs 2xl:text-lg text-base-900 hover:text-base-500 font-bold uppercase inline-block px-6 py-3 underline decoration-1 underline-offset-4 transition-colors cursor-pointer"
-        data-expanded="false"
-      >
-        <span class="toggle-text">See More</span>
-      </button>
+      <div class="mt-6 text-center">
+        <button
+          type="button"
+          class="gallery-toggle text-xs 2xl:text-lg text-base-900 hover:text-base-500 font-bold uppercase inline-block px-6 py-3 underline decoration-1 underline-offset-4 transition-colors cursor-pointer"
+          data-expanded="false"
+        >
+          <span class="toggle-text">See More</span>
+        </button>
+      </div>
+    )}
     </div>
-  )}
   </div>
 
   <!-- Lightbox overlay -->
