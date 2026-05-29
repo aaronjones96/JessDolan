@@ -1,0 +1,175 @@
+---
+interface GalleryImage {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images?: GalleryImage[];
+  initialVisible?: number;
+  columns?: 2 | 3 | 4;
+}
+
+const {
+  images = [],
+  initialVisible = 8,
+  columns = 4
+} = Astro.props;
+
+const gridColsClass = {
+  2: 'sm:grid-cols-2',
+  3: 'sm:grid-cols-2 lg:grid-cols-3',
+  4: 'sm:grid-cols-2 lg:grid-cols-4',
+}[columns];
+
+const hasMore = images.length > initialVisible;
+---
+
+<div class="gallery-container max-w-360 mx-auto px-8">
+  <div class="border-b py-8 border-base-200">
+    <div
+      class={`gallery-grid grid grid-cols-1 ${gridColsClass} gap-4`}
+      data-initial-visible={initialVisible}
+    >
+    {images.map((image, index) => (
+      <figure
+        class:list={[
+          "gallery-item relative aspect-square overflow-hidden bg-[color-mix(in_oklab,var(--color-ink)_4%,var(--color-surface))] group cursor-pointer",
+          index >= initialVisible && "hidden"
+        ]}
+        data-index={index}
+        data-src={image.src}
+        data-alt={image.alt}
+      >
+        <img
+          src={image.src}
+          alt={image.alt}
+          loading={index < initialVisible ? "eager" : "lazy"}
+          class="w-full h-full object-cover transition duration-400 group-hover:scale-105"
+        />
+        {image.alt && (
+          <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {image.alt}
+          </figcaption>
+        )}
+      </figure>
+    ))}
+  </div>
+
+  {hasMore && (
+    <div class="mt-6 text-center">
+      <button
+        type="button"
+        class="gallery-toggle text-xs 2xl:text-lg text-base-900 hover:text-base-500 font-bold uppercase inline-block px-6 py-3 underline decoration-1 underline-offset-4 transition-colors cursor-pointer"
+        data-expanded="false"
+      >
+        <span class="toggle-text">See More</span>
+      </button>
+    </div>
+  )}
+  </div>
+
+  <!-- Lightbox overlay -->
+  <div class="gallery-lightbox fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-sm">
+    <button
+      type="button"
+      class="lightbox-close absolute top-4 right-4 z-10 p-2 text-white hover:text-white/70 transition-colors cursor-pointer"
+      aria-label="Close lightbox"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <div class="lightbox-content flex items-center justify-center w-full h-full p-4 md:p-12">
+      <img class="lightbox-image max-w-full max-h-full object-contain" src="" alt="" />
+    </div>
+    <p class="lightbox-caption absolute bottom-4 left-0 right-0 text-center text-white text-sm px-4"></p>
+  </div>
+</div>
+
+<script>
+  function initGallery() {
+    const containers = document.querySelectorAll('.gallery-container');
+
+    containers.forEach(container => {
+      const toggle = container.querySelector('.gallery-toggle') as HTMLButtonElement | null;
+      const grid = container.querySelector('.gallery-grid') as HTMLElement | null;
+      const lightbox = container.querySelector('.gallery-lightbox') as HTMLElement | null;
+      const lightboxImage = container.querySelector('.lightbox-image') as HTMLImageElement | null;
+      const lightboxCaption = container.querySelector('.lightbox-caption') as HTMLElement | null;
+      const lightboxClose = container.querySelector('.lightbox-close') as HTMLButtonElement | null;
+      const lightboxContent = container.querySelector('.lightbox-content') as HTMLElement | null;
+
+      if (!grid) return;
+
+      const initialVisible = parseInt(grid.dataset.initialVisible || '8', 10);
+      const items = grid.querySelectorAll('.gallery-item');
+      const toggleText = toggle?.querySelector('.toggle-text');
+
+      // See More toggle
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          const isExpanded = toggle.dataset.expanded === 'true';
+
+          items.forEach((item, index) => {
+            if (index >= initialVisible) {
+              item.classList.toggle('hidden', isExpanded);
+            }
+          });
+
+          toggle.dataset.expanded = isExpanded ? 'false' : 'true';
+          if (toggleText) {
+            toggleText.textContent = isExpanded ? 'See More' : 'See Less';
+          }
+        });
+      }
+
+      // Lightbox functionality
+      if (lightbox && lightboxImage && lightboxCaption) {
+        const openLightbox = (src: string, alt: string) => {
+          lightboxImage.src = src;
+          lightboxImage.alt = alt;
+          lightboxCaption.textContent = alt;
+          lightbox.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        };
+
+        const closeLightbox = () => {
+          lightbox.classList.add('hidden');
+          lightboxImage.src = '';
+          lightboxCaption.textContent = '';
+          document.body.style.overflow = '';
+        };
+
+        // Click on gallery items to open lightbox
+        items.forEach(item => {
+          item.addEventListener('click', () => {
+            const src = (item as HTMLElement).dataset.src || '';
+            const alt = (item as HTMLElement).dataset.alt || '';
+            openLightbox(src, alt);
+          });
+        });
+
+        // Close button
+        lightboxClose?.addEventListener('click', closeLightbox);
+
+        // Click outside image to close
+        lightboxContent?.addEventListener('click', (e) => {
+          if (e.target === lightboxContent) {
+            closeLightbox();
+          }
+        });
+
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+            closeLightbox();
+          }
+        });
+      }
+    });
+  }
+
+  initGallery();
+  document.addEventListener('astro:after-swap', initGallery);
+</script>

@@ -3,15 +3,30 @@ import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/Hero.astro';
 import PostList from '../components/PostList.astro';
 import SectionList from "../components/SectionList.astro";
+import Gallery from '../components/Gallery.astro';
 
 import { getCollection } from "astro:content";
 import { getSite } from '../utils/consts';
-import ProjectList from '../components/ProjectList.astro';
 import Social from '../components/Social.astro';
 
 const cv = (await getCollection("cv" as any)) as any[];
 
 const site = await getSite();
+
+const galleryImages = [
+	{ src: "https://picsum.photos/seed/jd1/800/800", alt: "Portfolio image 1" },
+	{ src: "https://picsum.photos/seed/jd2/800/800", alt: "Portfolio image 2" },
+	{ src: "https://picsum.photos/seed/jd3/800/800", alt: "Portfolio image 3" },
+	{ src: "https://picsum.photos/seed/jd4/800/800", alt: "Portfolio image 4" },
+	{ src: "https://picsum.photos/seed/jd5/800/800", alt: "Portfolio image 5" },
+	{ src: "https://picsum.photos/seed/jd6/800/800", alt: "Portfolio image 6" },
+	{ src: "https://picsum.photos/seed/jd7/800/800", alt: "Portfolio image 7" },
+	{ src: "https://picsum.photos/seed/jd8/800/800", alt: "Portfolio image 8" },
+	{ src: "https://picsum.photos/seed/jd9/800/800", alt: "Portfolio image 9" },
+	{ src: "https://picsum.photos/seed/jd10/800/800", alt: "Portfolio image 10" },
+	{ src: "https://picsum.photos/seed/jd11/800/800", alt: "Portfolio image 11" },
+	{ src: "https://picsum.photos/seed/jd12/800/800", alt: "Portfolio image 12" },
+];
 ---
 
 <PageLayout
@@ -28,13 +43,11 @@ const site = await getSite();
 		]}
 	/>
 
-	<Social class="mt-8" />
+	<section id="gallery">
+		<Gallery images={galleryImages} initialVisible={8} columns={4} />
+	</section>
 
-	<ProjectList
-		heading="Projects"
-		limit={4}
-		viewAllHref="/projects"
-	/>
+	<Social class="mt-8" />
 
 	<PostList
 		heading="Blog"
@@ -42,8 +55,8 @@ const site = await getSite();
 		viewAllHref="/blog"
 	/>
 
-	            <!-- Sections (from src/content/sections.yml) -->
-            {
+	            <!-- Sections (from src/content/sections.yml)	
+            /*{
                 cv.map((section) => {
                     if (section.data.items) {
                         return (
@@ -55,6 +68,6 @@ const site = await getSite();
                     }
                     return null;
                 })
-            }
+            } -->
 		
 </PageLayout>
