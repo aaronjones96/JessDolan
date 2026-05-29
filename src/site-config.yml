@@ -1,16 +1,13 @@
 author:
-  name: Dasein
+  name: Jess Dolan
   role: PhD in Philosophy
   bio:  Known for contributions to phenomenology, hermeneutics, and existentialism.
   location: Munich, Germany
 
 social:
-  - id: "x"
-    label: "X"
+  - id: "instagram"
+    label: "Instagram"
     href: "#_"
-  - id: "github"
-    label: "GitHub"
-    href: "https://github.com/roicort"
   - id: "linkedin"
     label: "Linkedin"
     href: "#_"

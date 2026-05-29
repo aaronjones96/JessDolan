@@ -14,6 +14,6 @@ const isActive = href ? pathname === newhref || pathname === `${newhref}/` : fal
 
 ---
 
-<a href={newhref} class:list={[className, isActive && activeClass]} {...props}>
+<a href={newhref} class:list={["underline decoration-1 underline-offset-4 hover:text-base-500 transition-colors", className, isActive && activeClass]} {...props}>
 	<slot />
 </a>
