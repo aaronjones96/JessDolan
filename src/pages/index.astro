@@ -13,35 +13,31 @@ const cv = (await getCollection("cv" as any)) as any[];
 
 const site = await getSite();
 
-const photographyImages = [
-	{ src: "https://picsum.photos/seed/photo1/800/800", alt: "Photography 1" },
-	{ src: "https://picsum.photos/seed/photo2/800/800", alt: "Photography 2" },
-	{ src: "https://picsum.photos/seed/photo3/800/800", alt: "Photography 3" },
-	{ src: "https://picsum.photos/seed/photo4/800/800", alt: "Photography 4" },
-	{ src: "https://picsum.photos/seed/photo5/800/800", alt: "Photography 5" },
-	{ src: "https://picsum.photos/seed/photo6/800/800", alt: "Photography 6" },
-	{ src: "https://picsum.photos/seed/photo7/800/800", alt: "Photography 7" },
-	{ src: "https://picsum.photos/seed/photo8/800/800", alt: "Photography 8" },
-	{ src: "https://picsum.photos/seed/photo9/800/800", alt: "Photography 9" },
-	{ src: "https://picsum.photos/seed/photo10/800/800", alt: "Photography 10" },
-	{ src: "https://picsum.photos/seed/photo11/800/800", alt: "Photography 11" },
-	{ src: "https://picsum.photos/seed/photo12/800/800", alt: "Photography 12" },
-];
+// Import all photography images
+const photographyGlob = import.meta.glob<{ default: ImageMetadata }>('../assets/Photography files/*.png', { eager: true });
+const photographyImages = Object.entries(photographyGlob)
+	.sort((a, b) => {
+		const numA = parseInt(a[0].match(/(\d+)\.png$/)?.[1] || '0');
+		const numB = parseInt(b[0].match(/(\d+)\.png$/)?.[1] || '0');
+		return numA - numB;
+	})
+	.map(([path, module], index) => ({
+		src: module.default,
+		alt: `Photography ${index + 1}`
+	}));
 
-const designImages = [
-	{ src: "https://picsum.photos/seed/design1/800/800", alt: "Design 1" },
-	{ src: "https://picsum.photos/seed/design2/800/800", alt: "Design 2" },
-	{ src: "https://picsum.photos/seed/design3/800/800", alt: "Design 3" },
-	{ src: "https://picsum.photos/seed/design4/800/800", alt: "Design 4" },
-	{ src: "https://picsum.photos/seed/design5/800/800", alt: "Design 5" },
-	{ src: "https://picsum.photos/seed/design6/800/800", alt: "Design 6" },
-	{ src: "https://picsum.photos/seed/design7/800/800", alt: "Design 7" },
-	{ src: "https://picsum.photos/seed/design8/800/800", alt: "Design 8" },
-	{ src: "https://picsum.photos/seed/design9/800/800", alt: "Design 9" },
-	{ src: "https://picsum.photos/seed/design10/800/800", alt: "Design 10" },
-	{ src: "https://picsum.photos/seed/design11/800/800", alt: "Design 11" },
-	{ src: "https://picsum.photos/seed/design12/800/800", alt: "Design 12" },
-];
+// Import all design images (excluding PDF)
+const designGlob = import.meta.glob<{ default: ImageMetadata }>('../assets/Design/*.png', { eager: true });
+const designImages = Object.entries(designGlob)
+	.sort((a, b) => {
+		const numA = parseInt(a[0].match(/(\d+)\.png$/)?.[1] || '0');
+		const numB = parseInt(b[0].match(/(\d+)\.png$/)?.[1] || '0');
+		return numA - numB;
+	})
+	.map(([path, module], index) => ({
+		src: module.default,
+		alt: `Design ${index + 1}`
+	}));
 ---
 
 <PageLayout

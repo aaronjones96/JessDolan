@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface GalleryImage {
-  src: string;
+  src: string | ImageMetadata;
   alt: string;
 }
 
@@ -17,6 +20,12 @@ const {
   initialVisible = 8,
   columns = 4
 } = Astro.props;
+
+// Helper to get the actual src string for lightbox
+const getSrcString = (src: string | ImageMetadata): string => {
+  if (typeof src === 'string') return src;
+  return src.src;
+};
 
 const gridColsClass = {
   2: 'sm:grid-cols-2',
@@ -46,15 +55,26 @@ const hasMore = images.length > initialVisible;
           index >= initialVisible && "hidden"
         ]}
         data-index={index}
-        data-src={image.src}
+        data-src={getSrcString(image.src)}
         data-alt={image.alt}
       >
-        <img
-          src={image.src}
-          alt={image.alt}
-          loading={index < initialVisible ? "eager" : "lazy"}
-          class="w-full h-full object-cover transition duration-400 group-hover:scale-105"
-        />
+        {typeof image.src === 'string' ? (
+          <img
+            src={image.src}
+            alt={image.alt}
+            loading={index < initialVisible ? "eager" : "lazy"}
+            class="w-full h-full object-cover transition duration-400 group-hover:scale-105"
+          />
+        ) : (
+          <Image
+            src={image.src}
+            alt={image.alt}
+            loading={index < initialVisible ? "eager" : "lazy"}
+            class="w-full h-full object-cover transition duration-400 group-hover:scale-105"
+            widths={[400, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          />
+        )}
         {image.alt && (
           <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             {image.alt}
