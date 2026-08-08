@@ -1,0 +1,15 @@
+author:
+  name: Jess Dolan
+  role: Graphic Designer & Photographer
+  bio: Bringing creative visions to life
+  location: London, England
+social:
+  - id: instagram
+    label: Instagram
+    href: '#_'
+  - id: linkedin
+    label: Linkedin
+    href: '#_'
+  - id: email
+    label: Email
+    href: 'mailto:'

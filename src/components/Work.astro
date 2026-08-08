@@ -1,0 +1,50 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface WorkEntry {
+  title: string;
+  description?: string;
+  href?: string;
+  images: { src: string | ImageMetadata; alt: string }[];
+}
+
+interface Props {
+  entries?: WorkEntry[];
+}
+
+const { entries = [] } = Astro.props as Props;
+---
+
+{entries.length > 0 && (
+  <div data-reveal>
+    <h2 class="display-heading">Work</h2>
+
+    <div class="work-list">
+      {entries.map((entry, i) => (
+        <div class="work-row">
+          <div class="work-copy">
+            <span class="work-number">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{entry.title}</h3>
+            {entry.description && <p>{entry.description}</p>}
+            {entry.href && (
+              <p><a href={entry.href} class="eyebrow-mono hover:text-ink transition-colors">Explore →</a></p>
+            )}
+          </div>
+
+          <div class="work-photos">
+            {entry.images.slice(0, 3).map((image) => (
+              <figure>
+                {typeof image.src === 'string' ? (
+                  <img src={image.src} alt={image.alt} loading="lazy" />
+                ) : (
+                  <Image src={image.src} alt={image.alt} loading="lazy" widths={[360, 640]} sizes="(max-width: 860px) 50vw, 25vw" />
+                )}
+              </figure>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}

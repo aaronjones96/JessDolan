@@ -8,11 +8,16 @@ import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
 import icon from "astro-icon";
+import react from "@astrojs/react";
+import markdoc from "@astrojs/markdoc";
+import keystatic from "@keystatic/astro";
+import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://jessdolan.netlify.app",
-  integrations: [mdx(), sitemap(), pagefind(), icon()],
+  adapter: netlify(),
+  integrations: [mdx(), sitemap(), pagefind(), icon(), react(), markdoc(), keystatic()],
 
   vite: {
     plugins: [tailwindcss()],

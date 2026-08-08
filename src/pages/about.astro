@@ -1,5 +1,8 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const about = (await getCollection('about'))[0]?.data;
 ---
 
 <PageLayout
@@ -9,9 +12,9 @@ import PageLayout from '../layouts/PageLayout.astro';
 >
 	<section class="content-shell py-12 space-y-8">
 		<div class="space-y-3 max-w-3xl">
-			<h1 class="m-0 mb-6 text-ink text-2xl font-semibold leading-tight">Jess Dolan is a graphic designer and photographer with extensive experience crafting compelling visual narratives across a diverse portfolio of projects.</p>
-			<p class="m-0 text-muted">With a keen eye for detail and a commitment to excellence, Jess brings a thoughtful, strategic approach to every creative challenge—whether developing brand identities, capturing moments through the lens, or designing impactful visual communications.</p>
-			<p class="m-0 text-muted">Each project is an opportunity to collaborate closely with clients, translating their vision into polished, purposeful work that resonates with audiences and delivers measurable results.</p>
+			<h1 class="m-0 mb-6 text-ink text-2xl font-semibold leading-tight">{about?.intro}</h1>
+			<p class="m-0 text-muted">{about?.approach}</p>
+			<p class="m-0 text-muted">{about?.collaboration}</p>
 		</div>
 	</section>
 </PageLayout>

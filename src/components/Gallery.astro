@@ -109,6 +109,24 @@ const hasMore = images.length > initialVisible;
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
+    <button
+      type="button"
+      class="lightbox-prev absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white hover:text-white/70 transition-colors cursor-pointer"
+      aria-label="Previous image"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      class="lightbox-next absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white hover:text-white/70 transition-colors cursor-pointer"
+      aria-label="Next image"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
     <div class="lightbox-content flex items-center justify-center w-full h-full p-4 md:p-12">
       <img class="lightbox-image max-w-full max-h-full object-contain" src="" alt="" />
     </div>
@@ -120,20 +138,39 @@ const hasMore = images.length > initialVisible;
   function initGallery() {
     const containers = document.querySelectorAll('.gallery-container');
 
-    containers.forEach(container => {
+    containers.forEach((container, containerIndex) => {
       const toggle = container.querySelector('.gallery-toggle') as HTMLButtonElement | null;
       const grid = container.querySelector('.gallery-grid') as HTMLElement | null;
-      const lightbox = container.querySelector('.gallery-lightbox') as HTMLElement | null;
-      const lightboxImage = container.querySelector('.lightbox-image') as HTMLImageElement | null;
-      const lightboxCaption = container.querySelector('.lightbox-caption') as HTMLElement | null;
-      const lightboxClose = container.querySelector('.lightbox-close') as HTMLButtonElement | null;
-      const lightboxContent = container.querySelector('.lightbox-content') as HTMLElement | null;
+
+      // Position: fixed only escapes the viewport if no ancestor has a transform
+      // (scroll-reveal sections do). Move the lightbox to <body> so it always
+      // covers the full viewport regardless of where the gallery is nested.
+      const galleryId = container.getAttribute('data-gallery-id') || `gallery-${containerIndex}`;
+      container.setAttribute('data-gallery-id', galleryId);
+      let lightbox = document.body.querySelector(
+        `:scope > .gallery-lightbox[data-gallery-id="${galleryId}"]`
+      ) as HTMLElement | null;
+      if (!lightbox) {
+        lightbox = container.querySelector('.gallery-lightbox') as HTMLElement | null;
+        if (lightbox) {
+          lightbox.setAttribute('data-gallery-id', galleryId);
+          document.body.appendChild(lightbox);
+        }
+      }
+
+      const lightboxImage = lightbox?.querySelector('.lightbox-image') as HTMLImageElement | null;
+      const lightboxCaption = lightbox?.querySelector('.lightbox-caption') as HTMLElement | null;
+      const lightboxClose = lightbox?.querySelector('.lightbox-close') as HTMLButtonElement | null;
+      const lightboxPrev = lightbox?.querySelector('.lightbox-prev') as HTMLButtonElement | null;
+      const lightboxNext = lightbox?.querySelector('.lightbox-next') as HTMLButtonElement | null;
+      const lightboxContent = lightbox?.querySelector('.lightbox-content') as HTMLElement | null;
 
       if (!grid) return;
 
       const initialVisible = parseInt(grid.dataset.initialVisible || '8', 10);
       const items = grid.querySelectorAll('.gallery-item');
       const toggleText = toggle?.querySelector('.toggle-text');
+      let currentIndex = 0;
 
       // See More toggle
       if (toggle) {
@@ -155,10 +192,19 @@ const hasMore = images.length > initialVisible;
 
       // Lightbox functionality
       if (lightbox && lightboxImage && lightboxCaption) {
-        const openLightbox = (src: string, alt: string) => {
-          lightboxImage.src = src;
-          lightboxImage.alt = alt;
-          lightboxCaption.textContent = alt;
+        const itemList = Array.from(items) as HTMLElement[];
+
+        const showAtIndex = (index: number) => {
+          const item = itemList[index];
+          if (!item) return;
+          currentIndex = index;
+          lightboxImage.src = item.dataset.src || '';
+          lightboxImage.alt = item.dataset.alt || '';
+          lightboxCaption.textContent = item.dataset.alt || '';
+        };
+
+        const openLightbox = (index: number) => {
+          showAtIndex(index);
           lightbox.classList.remove('hidden');
           document.body.style.overflow = 'hidden';
         };
@@ -170,17 +216,26 @@ const hasMore = images.length > initialVisible;
           document.body.style.overflow = '';
         };
 
+        const showNext = () => showAtIndex((currentIndex + 1) % itemList.length);
+        const showPrev = () => showAtIndex((currentIndex - 1 + itemList.length) % itemList.length);
+
         // Click on gallery items to open lightbox
-        items.forEach(item => {
-          item.addEventListener('click', () => {
-            const src = (item as HTMLElement).dataset.src || '';
-            const alt = (item as HTMLElement).dataset.alt || '';
-            openLightbox(src, alt);
-          });
+        itemList.forEach((item, index) => {
+          item.addEventListener('click', () => openLightbox(index));
         });
 
         // Close button
         lightboxClose?.addEventListener('click', closeLightbox);
+
+        // Prev / next controls
+        lightboxPrev?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showPrev();
+        });
+        lightboxNext?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showNext();
+        });
 
         // Click outside image to close
         lightboxContent?.addEventListener('click', (e) => {
@@ -189,11 +244,12 @@ const hasMore = images.length > initialVisible;
           }
         });
 
-        // Escape key to close
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
-            closeLightbox();
-          }
+          if (lightbox.classList.contains('hidden')) return;
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowRight') showNext();
+          if (e.key === 'ArrowLeft') showPrev();
         });
       }
     });

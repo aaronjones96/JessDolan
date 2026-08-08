@@ -1,0 +1,38 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import { getSite } from '../utils/consts';
+
+interface Props {
+  heading?: string;
+  image?: { src: string | ImageMetadata; alt: string };
+}
+
+const { heading = "Let's Work Together", image } = Astro.props as Props;
+
+const site = await getSite();
+const social: Array<{ id: string; label: string; href: string }> = (site.social || []) as Array<{ id: string; label: string; href: string }>;
+---
+
+<div class="contact-cta" data-reveal>
+  {image && (
+    <figure class="cta-photo m-0">
+      {typeof image.src === 'string' ? (
+        <img src={image.src} alt={image.alt} />
+      ) : (
+        <Image src={image.src} alt={image.alt} loading="lazy" widths={[500, 900]} sizes="(max-width: 860px) 100vw, 50vw" />
+      )}
+    </figure>
+  )}
+
+  <div>
+    <h2 class="cta-heading">{heading}</h2>
+    <div class="flex flex-col gap-2 items-start">
+      {social.map((s) => (
+        <a class="eyebrow-mono hover:text-ink transition-colors" href={s.href} target={s.href && !s.href.startsWith('#') && !s.href.startsWith('mailto:') ? '_blank' : undefined} rel={s.href && !s.href.startsWith('#') && !s.href.startsWith('mailto:') ? 'noreferrer' : undefined}>
+          {s.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</div>

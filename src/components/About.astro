@@ -1,0 +1,51 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  intro?: string;
+  process?: string;
+  label?: string;
+  images?: { src: string | ImageMetadata; alt: string }[];
+}
+
+const { intro, process, label = 'Portrait', images = [] } = Astro.props as Props;
+---
+
+<div data-reveal>
+  <h2 class="display-heading">About</h2>
+
+  <div class="about-grid">
+    <div class="about-columns">
+      {intro && (
+        <div>
+          <h3>Who I Am</h3>
+          <p>{intro}</p>
+        </div>
+      )}
+      {process && (
+        <div>
+          <h3>How I Work</h3>
+          <p>{process}</p>
+        </div>
+      )}
+    </div>
+
+    {images.length > 0 && (
+      <div class="about-stack">
+        <span class="about-label">{label}</span>
+        <div class="about-photos">
+          {images.slice(0, 2).map((image) => (
+            <figure class="m-0">
+              {typeof image.src === 'string' ? (
+                <img src={image.src} alt={image.alt} loading="lazy" />
+              ) : (
+                <Image src={image.src} alt={image.alt} loading="lazy" widths={[240, 440]} sizes="220px" />
+              )}
+            </figure>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</div>

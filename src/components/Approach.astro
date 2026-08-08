@@ -1,0 +1,30 @@
+---
+interface ApproachItem {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  items?: ApproachItem[];
+}
+
+const { items = [] } = Astro.props as Props;
+---
+
+{items.length > 0 && (
+  <div data-reveal>
+    <h2 class="display-heading">Approach</h2>
+
+    <div class="approach-list">
+      {items.map((item, i) => (
+        <div class="approach-item">
+          <span class="approach-index">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
