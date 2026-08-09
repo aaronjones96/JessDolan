@@ -31,6 +31,17 @@
 		--grid-cell-y: var(--grid-cell);
 		--content-columns: 19;
 		--content-width: calc(var(--grid-cell) * var(--content-columns));
+		--desktop-text-scale: 1;
+	}
+
+	@media (min-width: 768px) {
+		:root {
+			--desktop-text-scale: 1.08;
+		}
+
+		html {
+			font-size: calc(100% * var(--desktop-text-scale));
+		}
 	}
 
 	:root[data-theme="dark"] {
@@ -303,7 +314,7 @@
 		letter-spacing: -0.01em;
 		line-height: 0.95;
 		margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
-		font-size: clamp(2.5rem, 7vw, 5rem);
+		font-size: clamp(calc(2.5rem / var(--desktop-text-scale)), 7vw, calc(5rem / var(--desktop-text-scale)));
 	}
 
 	.section-block {
@@ -335,6 +346,7 @@
 		display: grid;
 		gap: clamp(1.5rem, 4vw, 3rem);
 		align-items: end;
+		padding-top: clamp(2rem, 5vw, 4rem);
 	}
 
 	@media (min-width: 900px) {
@@ -362,7 +374,7 @@
 		text-transform: uppercase;
 		letter-spacing: -0.01em;
 		line-height: 0.95;
-		font-size: clamp(2.5rem, 6.4vw, 4.5rem);
+		font-size: clamp(calc(2.5rem / var(--desktop-text-scale)), 6.4vw, calc(4.5rem / var(--desktop-text-scale)));
 	}
 
 	.split-hero .hero-role {
@@ -594,8 +606,70 @@
 		text-transform: uppercase;
 		letter-spacing: -0.01em;
 		line-height: 0.95;
-		font-size: clamp(2.25rem, 5.4vw, 3.75rem);
+		font-size: clamp(calc(2.25rem / var(--desktop-text-scale)), 5.4vw, calc(3.75rem / var(--desktop-text-scale)));
 		margin: 0 0 1.5rem;
+	}
+
+	.about-heading {
+		font-size: calc(1.5rem / var(--desktop-text-scale));
+	}
+
+	/* Custom cursor: inverts whatever it's over, works in both themes for free */
+	.cursor-dot,
+	.cursor-ring {
+		position: fixed;
+		top: 0;
+		left: 0;
+		border-radius: 999px;
+		pointer-events: none;
+		z-index: 9999;
+		background: #fff;
+		mix-blend-mode: difference;
+		transform: translate(-50%, -50%);
+	}
+
+	.cursor-dot {
+		width: 8px;
+		height: 8px;
+		transition: width 200ms cubic-bezier(.2, .8, .2, 1), height 200ms cubic-bezier(.2, .8, .2, 1), opacity 200ms ease;
+	}
+
+	.cursor-ring {
+		width: 36px;
+		height: 36px;
+		opacity: 0.9;
+		transition: width 300ms cubic-bezier(.2, .8, .2, 1), height 300ms cubic-bezier(.2, .8, .2, 1), opacity 200ms ease;
+	}
+
+	.cursor-ring.is-active {
+		width: 84px;
+		height: 84px;
+	}
+
+	.cursor-dot.is-active {
+		width: 0px;
+		height: 0px;
+	}
+
+	.cursor-ring.is-pressed {
+		width: 28px;
+		height: 28px;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		body.has-custom-cursor,
+		body.has-custom-cursor a,
+		body.has-custom-cursor button,
+		body.has-custom-cursor [role="button"] {
+			cursor: none;
+		}
+	}
+
+	@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+		.cursor-dot,
+		.cursor-ring {
+			display: none;
+		}
 	}
 
 	/* Scroll-in reveal */
@@ -675,7 +749,7 @@
 		text-transform: uppercase;
 		letter-spacing: -0.01em;
 		line-height: 0.95;
-		font-size: clamp(2.5rem, 7vw, 5.5rem);
+		font-size: clamp(calc(2.5rem / var(--desktop-text-scale)), 7vw, calc(5.5rem / var(--desktop-text-scale)));
 		margin: 0;
 	}
 

@@ -1,0 +1,74 @@
+---
+---
+
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<script is:inline>
+	(function () {
+		var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+		var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (!canHover || reduceMotion) return;
+
+		document.body.classList.add('has-custom-cursor');
+
+		var dot = document.querySelector('.cursor-dot');
+		var ring = document.querySelector('.cursor-ring');
+		if (!dot || !ring) return;
+
+		var mouseX = window.innerWidth / 2;
+		var mouseY = window.innerHeight / 2;
+		var ringX = mouseX;
+		var ringY = mouseY;
+
+		window.addEventListener('mousemove', function (e) {
+			mouseX = e.clientX;
+			mouseY = e.clientY;
+			dot.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
+		});
+
+		function raf() {
+			ringX += (mouseX - ringX) * 0.2;
+			ringY += (mouseY - ringY) * 0.2;
+			ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
+			requestAnimationFrame(raf);
+		}
+		requestAnimationFrame(raf);
+
+		var interactiveSelector = 'a, button, [role="button"], .gallery-item, .work-row, input, textarea, select';
+
+		document.addEventListener('mouseover', function (e) {
+			var target = e.target;
+			if (!(target instanceof Element)) return;
+			if (target.closest(interactiveSelector)) {
+				ring.classList.add('is-active');
+				dot.classList.add('is-active');
+			}
+		});
+
+		document.addEventListener('mouseout', function (e) {
+			var target = e.target;
+			if (!(target instanceof Element)) return;
+			if (target.closest(interactiveSelector)) {
+				ring.classList.remove('is-active');
+				dot.classList.remove('is-active');
+			}
+		});
+
+		document.addEventListener('mousedown', function () {
+			ring.classList.add('is-pressed');
+		});
+		document.addEventListener('mouseup', function () {
+			ring.classList.remove('is-pressed');
+		});
+
+		document.addEventListener('mouseleave', function () {
+			dot.style.opacity = '0';
+			ring.style.opacity = '0';
+		});
+		document.addEventListener('mouseenter', function () {
+			dot.style.opacity = '1';
+			ring.style.opacity = '1';
+		});
+	})();
+</script>

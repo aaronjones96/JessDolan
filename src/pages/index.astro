@@ -55,11 +55,13 @@ const contact = (await getCollection('contact'))[0]?.data;
 				{
 					title: 'Design',
 					description: workSection?.designBlurb,
+					href: '/projects#design',
 					images: designImages.slice(0, 3),
 				},
 				{
 					title: 'Photography',
 					description: workSection?.photographyBlurb,
+					href: '/projects#photography',
 					images: photographyImages.slice(2, 5),
 				},
 			]}

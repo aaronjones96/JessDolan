@@ -4,6 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import ScrollReveal from '../components/ScrollReveal.astro';
+import CustomCursor from '../components/CustomCursor.astro';
 import { getSite } from '../utils/consts';
 
 interface Props {
@@ -22,6 +23,7 @@ const { title = site.author.name, description, image } = Astro.props;
         <BaseHead title={title} description={description} image={image} />
     </head>
     <body>
+        <CustomCursor />
         <Header />
         <main class="content-shell">
             <slot />

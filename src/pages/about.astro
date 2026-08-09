@@ -12,7 +12,7 @@ const about = (await getCollection('about'))[0]?.data;
 >
 	<section class="content-shell py-12 space-y-8">
 		<div class="space-y-3 max-w-3xl">
-			<h1 class="m-0 mb-6 text-ink text-2xl font-semibold leading-tight">{about?.intro}</h1>
+			<h1 class="about-heading m-0 mb-6 text-ink font-semibold leading-tight">{about?.intro}</h1>
 			<p class="m-0 text-muted">{about?.approach}</p>
 			<p class="m-0 text-muted">{about?.collaboration}</p>
 		</div>
