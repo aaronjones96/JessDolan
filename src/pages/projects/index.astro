@@ -25,33 +25,26 @@ const contact = (await getCollection('contact'))[0]?.data;
 ---
 
 <PageLayout title={`My Work · ${site.author.name}`} description="Design and photography work.">
-	{/* <div class="work-filters" data-reveal>
-		<div class="pill-group">
-			<a href="#design" class="pill hover:text-ink transition-colors">Design</a>
-			<a href="#photography" class="pill hover:text-ink transition-colors">Photography</a>
-		</div>
-		<select id="work-jump" aria-label="Jump to section">
-			<option value="#design">Design</option>
-			<option value="#photography">Photography</option>
-		</select>
-	</div> */}
-
 	<section class="section-block" data-reveal>
 		<h1 class="tone-headline">
 			<span>Ideas</span>
 			<span><span class="muted-word">Framed</span> With</span>
 			<span>Intention</span>
 		</h1>
+		<div class="work-links">
+			<a href="#design" class="pill">Design</a>
+			<a href="#photography" class="pill">Photography</a>
+		</div>
 	</section>
 
 	<section id="design" class="section-block" data-reveal>
 		<h2 class="display-heading">Design</h2>
-		<Gallery images={designImages} initialVisible={10} columns={2} />
+		<Gallery images={designImages} initialVisible={4} columns={2} />
 	</section>
 
 	<section id="photography" class="section-block" data-reveal>
 		<h2 class="display-heading">Photography</h2>
-		<Gallery images={photographyImages} initialVisible={10} columns={2} />
+		<Gallery images={photographyImages} initialVisible={4} columns={2} />
 	</section>
 
 	<div class="section-block">
@@ -62,11 +55,3 @@ const contact = (await getCollection('contact'))[0]?.data;
 		<ContactCTA heading={contact?.heading} image={designImages[2]} />
 	</div>
 </PageLayout>
-
-<script is:inline>
-	document.getElementById('work-jump')?.addEventListener('change', (e) => {
-		const target = e.target;
-		if (!(target instanceof HTMLSelectElement)) return;
-		document.querySelector(target.value)?.scrollIntoView({ behavior: 'smooth' });
-	});
-</script>
