@@ -22,6 +22,7 @@ const { class: className = '' } = Astro.props as Props;
 </button>
 
 <script is:inline>
+(function () {
 const STORAGE_KEY = 'theme';
 const THEMES = ['light', 'dark'];
 
@@ -62,4 +63,5 @@ document.addEventListener('click', (e) => {
 	e.preventDefault();
 	toggleTheme();
 });
+})();
 </script>
