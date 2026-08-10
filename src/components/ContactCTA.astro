@@ -30,7 +30,7 @@ const social: Array<{ id: string; label: string; href: string }> = (site.social 
     <div class="flex flex-col gap-2 items-start">
       {social.map((s) => (
         <a class="eyebrow-mono hover:text-ink transition-colors" href={s.href} target={s.href && !s.href.startsWith('#') && !s.href.startsWith('mailto:') ? '_blank' : undefined} rel={s.href && !s.href.startsWith('#') && !s.href.startsWith('mailto:') ? 'noreferrer' : undefined}>
-          {s.label}
+          {s.label} →
         </a>
       ))}
     </div>
