@@ -1,4 +1,6 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 // Theme toggle button with local storage persistence
 export interface Props {
   class?: string;
@@ -13,11 +15,13 @@ const { class: className = '' } = Astro.props as Props;
 	class={className}
 >
 	<span class="sr-only">Toggle theme</span>
-	<span class="theme-toggle__icon inline-flex [html[data-theme='dark']_&]:hidden [html[data-theme='blue']_&]:hidden" aria-hidden="true">
+	<span class="theme-toggle__icon inline-flex items-center gap-1 [html[data-theme='dark']_&]:hidden [html[data-theme='blue']_&]:hidden" aria-hidden="true">
 		Dark
+		<Icon name="tabler:moon" class="w-[1em] h-[1em]" />
 	</span>
-	<span class="theme-toggle__icon hidden [html[data-theme='dark']_&]:inline-flex" aria-hidden="true">
+	<span class="theme-toggle__icon hidden items-center gap-1 [html[data-theme='dark']_&]:inline-flex" aria-hidden="true">
 		Light
+		<Icon name="tabler:sun" class="w-[1em] h-[1em]" />
 	</span>
 </button>
 
