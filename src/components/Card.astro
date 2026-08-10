@@ -20,7 +20,7 @@ const { title, href, description, date, image, imageAlt = '', eyebrow, variant, 
 
 const baseDate = typeof date === 'string' ? new Date(date) : date;
 
-const articleClass = 'group relative grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-start p-5 transition duration-300 ease-in-out hover:-translate-y-1 focus-within:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-border cursor-pointer';
+const articleClass = 'group relative grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-start p-5 transition duration-300 ease-in-out hover:-translate-y-1 focus-within:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent cursor-pointer';
 
 const isExternal = external ?? (/^https?:\/\//.test(href) || href.startsWith('//'));
 const aProps = { href, 'aria-label': cta || `View ${title}`, ...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {}) };
