@@ -99,8 +99,9 @@ export default config({
       format: { data: 'yaml' },
       schema: {
         content: fields.object({
-          designBlurb: fields.text({ label: 'Design blurb', multiline: true }),
-          photographyBlurb: fields.text({ label: 'Photography blurb', multiline: true }),
+          marketingBlurb: fields.text({ label: 'Marketing blurb', multiline: true }),
+          packagingBlurb: fields.text({ label: 'Packaging blurb', multiline: true }),
+          freelanceBlurb: fields.text({ label: 'Freelance blurb', multiline: true }),
         }),
       },
     }),
@@ -132,7 +133,7 @@ export default config({
     }),
 
     galleryDesign: singleton({
-      label: 'Gallery — Design',
+      label: 'Gallery — Marketing',
       path: 'src/content/gallery-design',
       format: { data: 'yaml' },
       schema: {
@@ -151,7 +152,7 @@ export default config({
     }),
 
     galleryPhotography: singleton({
-      label: 'Gallery — Photography',
+      label: 'Gallery — Packaging',
       path: 'src/content/gallery-photography',
       format: { data: 'yaml' },
       schema: {
@@ -161,6 +162,25 @@ export default config({
               label: 'Image',
               directory: 'src/assets/Photography files',
               publicPath: '../assets/Photography files/',
+            }),
+            alt: fields.text({ label: 'Alt text' }),
+          }),
+          { label: 'Images', itemLabel: (props) => props.fields.alt.value || 'Image' },
+        ),
+      },
+    }),
+
+    galleryFreelance: singleton({
+      label: 'Gallery — Freelance',
+      path: 'src/content/gallery-freelance',
+      format: { data: 'yaml' },
+      schema: {
+        images: fields.array(
+          fields.object({
+            image: fields.image({
+              label: 'Image',
+              directory: 'src/assets',
+              publicPath: '../assets/',
             }),
             alt: fields.text({ label: 'Alt text' }),
           }),

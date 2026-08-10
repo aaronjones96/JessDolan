@@ -20,11 +20,17 @@ const designImages = (designEntry[0]?.data || []).map((img) => ({
 	alt: img.alt,
 }));
 
+const freelanceEntry = await getCollection('galleryFreelance');
+const freelanceImages = (freelanceEntry[0]?.data || []).map((img) => ({
+	src: img.image,
+	alt: img.alt,
+}));
+
 const approachItems = (await getCollection('approach'))[0]?.data || [];
 const contact = (await getCollection('contact'))[0]?.data;
 ---
 
-<PageLayout title={`My Work · ${site.author.name}`} description="Design and photography work.">
+<PageLayout title={`My Work · ${site.author.name}`} description="Marketing, packaging, and freelance work.">
 	<section class="section-block" data-reveal>
 		<h1 class="tone-headline">
 			<span>Ideas</span>
@@ -32,19 +38,25 @@ const contact = (await getCollection('contact'))[0]?.data;
 			<span>Intention</span>
 		</h1>
 		<div class="work-links">
-			<a href="#design" class="pill">Design</a>
-			<a href="#photography" class="pill">Photography</a>
+			<a href="#marketing" class="pill">Marketing</a>
+			<a href="#packaging" class="pill">Packaging</a>
+			<a href="#freelance" class="pill">Freelance</a>
 		</div>
 	</section>
 
-	<section id="design" class="section-block" data-reveal>
-		<h2 class="display-heading">Design</h2>
+	<section id="marketing" class="section-block" data-reveal>
+		<h2 class="display-heading">Marketing</h2>
 		<Gallery images={designImages} initialVisible={4} columns={2} />
 	</section>
 
-	<section id="photography" class="section-block" data-reveal>
-		<h2 class="display-heading">Photography</h2>
+	<section id="packaging" class="section-block" data-reveal>
+		<h2 class="display-heading">Packaging</h2>
 		<Gallery images={photographyImages} initialVisible={4} columns={2} />
+	</section>
+
+	<section id="freelance" class="section-block" data-reveal>
+		<h2 class="display-heading">Freelance</h2>
+		<Gallery images={freelanceImages} initialVisible={4} columns={2} />
 	</section>
 
 	<div class="section-block">

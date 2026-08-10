@@ -24,6 +24,12 @@ const designImages = (designEntry[0]?.data || []).map((img) => ({
 	alt: img.alt,
 }));
 
+const freelanceEntry = await getCollection('galleryFreelance');
+const freelanceImages = (freelanceEntry[0]?.data || []).map((img) => ({
+	src: img.image,
+	alt: img.alt,
+}));
+
 const about = (await getCollection('about'))[0]?.data;
 const workSection = (await getCollection('workSection'))[0]?.data;
 const approachItems = (await getCollection('approach'))[0]?.data || [];
@@ -55,16 +61,22 @@ const contact = (await getCollection('contact'))[0]?.data;
 		<Work
 			entries={[
 				{
-					title: 'Design',
-					description: workSection?.designBlurb,
-					href: '/projects#design',
+					title: 'Marketing',
+					description: workSection?.marketingBlurb,
+					href: '/projects#marketing',
 					images: designImages.slice(0, 3),
 				},
 				{
-					title: 'Photography',
-					description: workSection?.photographyBlurb,
-					href: '/projects#photography',
+					title: 'Packaging',
+					description: workSection?.packagingBlurb,
+					href: '/projects#packaging',
 					images: photographyImages.slice(2, 5),
+				},
+				{
+					title: 'Freelance',
+					description: workSection?.freelanceBlurb,
+					href: '/projects#freelance',
+					images: freelanceImages.slice(0, 3),
 				},
 			]}
 		/>

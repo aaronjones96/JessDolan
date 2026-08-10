@@ -51,8 +51,9 @@ const about = defineCollection({
 const workSection = defineCollection({
 	loader: file('src/content/work-section.yaml'),
 	schema: z.object({
-		designBlurb: z.string(),
-		photographyBlurb: z.string(),
+		marketingBlurb: z.string(),
+		packagingBlurb: z.string(),
+		freelanceBlurb: z.string(),
 	}),
 });
 
@@ -98,6 +99,17 @@ const galleryPhotography = defineCollection({
 		),
 });
 
+const galleryFreelance = defineCollection({
+	loader: file('src/content/gallery-freelance.yaml'),
+	schema: ({ image }) =>
+		z.array(
+			z.object({
+				image: image(),
+				alt: z.string(),
+			}),
+		),
+});
+
 export const collections = {
 	blog,
 	projects,
@@ -108,4 +120,5 @@ export const collections = {
 	contact,
 	galleryDesign,
 	galleryPhotography,
+	galleryFreelance,
 };

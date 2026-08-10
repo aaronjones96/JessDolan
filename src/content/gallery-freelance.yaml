@@ -1,0 +1,9 @@
+images:
+  - image: ../assets/Design/1.png
+    alt: "Freelance 1"
+  - image: ../assets/Design/2.png
+    alt: "Freelance 2"
+  - image: "../assets/Photography files/1.png"
+    alt: "Freelance 3"
+  - image: "../assets/Photography files/2.png"
+    alt: "Freelance 4"
