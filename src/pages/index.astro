@@ -5,6 +5,7 @@ import About from '../components/About.astro';
 import Work from '../components/Work.astro';
 import Approach from '../components/Approach.astro';
 import ContactCTA from '../components/ContactCTA.astro';
+import logo from '../assets/Logo/JD LOGO.png';
 import invertedLogo from '../assets/Logo/JD LOGO Inverted.png';
 
 import { getCollection } from 'astro:content';
@@ -45,7 +46,8 @@ const contact = (await getCollection('contact'))[0]?.data;
 		role={site.author.role}
 		description={site.author.bio}
 		location={site.author.location}
-		image={{ src: invertedLogo, alt: `${site.author.name} logo` }}
+		image={{ src: logo, alt: `${site.author.name} logo` }}
+		imageDark={{ src: invertedLogo, alt: `${site.author.name} logo` }}
 	/>
 
 	<div class="section-block">

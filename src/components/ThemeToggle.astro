@@ -23,6 +23,9 @@ const { class: className = '' } = Astro.props as Props;
 
 <script is:inline>
 (function () {
+if (window.__themeToggleInit) return;
+window.__themeToggleInit = true;
+
 const STORAGE_KEY = 'theme';
 const THEMES = ['light', 'dark'];
 

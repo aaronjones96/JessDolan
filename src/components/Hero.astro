@@ -8,18 +8,26 @@ interface Props {
   role?: string;
   location?: string;
   image?: { src: string | ImageMetadata; alt: string };
+  imageDark?: { src: string | ImageMetadata; alt: string };
 }
 
-const { title, description, role, location, image } = Astro.props as Props;
+const { title, description, role, location, image, imageDark } = Astro.props as Props;
 ---
 
 <section class="split-hero" data-reveal>
   {image && (
     <figure class="hero-photo m-0">
       {typeof image.src === 'string' ? (
-        <img src={image.src} alt={image.alt} />
+        <img class="hero-logo-light" src={image.src} alt={image.alt} />
       ) : (
-        <Image src={image.src} alt={image.alt} loading="eager" widths={[500, 900, 1300]} sizes="(max-width: 900px) 100vw, 55vw" />
+        <Image class="hero-logo-light" src={image.src} alt={image.alt} loading="eager" widths={[500, 900, 1300]} sizes="(max-width: 900px) 100vw, 55vw" />
+      )}
+      {imageDark && (
+        typeof imageDark.src === 'string' ? (
+          <img class="hero-logo-dark" src={imageDark.src} alt={imageDark.alt} />
+        ) : (
+          <Image class="hero-logo-dark" src={imageDark.src} alt={imageDark.alt} loading="eager" widths={[500, 900, 1300]} sizes="(max-width: 900px) 100vw, 55vw" />
+        )
       )}
     </figure>
   )}
