@@ -38,14 +38,13 @@ import ThemeToggle from "./ThemeToggle.astro";
     <!-- Mobile modal menu (brutalist, simple) -->
     <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-hidden="true" style="display:none;" class="fixed inset-0 z-[1000] p-8 overflow-auto bg-[var(--color-paper)] text-[var(--color-ink)]">
       <button id="mobile-close" aria-label="Close navigation" style="position:absolute;right:1rem;top:1rem;" class="text-xs 2xl:text-lg font-bold uppercase">Close</button>
-      <div class="flex flex-col gap-2 items-start text-xs 2xl:text-lg hover:text-base-500 font-bold uppercase">
+      <div class="flex flex-col gap-6 items-start text-2xl hover:text-base-500 font-bold uppercase">
         <HeaderLink href="/">Home</HeaderLink>
         <HeaderLink href="/projects">My Work</HeaderLink>
-        <HeaderLink href="/blog">Blog</HeaderLink>
         <HeaderLink href="/about">About</HeaderLink>
         {/* <SearchModal class="text-xs 2xl:text-lg hover:text-base-500 font-bold uppercase" /> */}
         <HeaderLink href="/top-secret">Top Secret</HeaderLink>
-        <ThemeToggle class="text-xs 2xl:text-lg hover:text-base-500 font-bold uppercase" />
+        <ThemeToggle class="text-2xl hover:text-base-500 font-bold uppercase" />
       </div>
     </div>
   </nav>
