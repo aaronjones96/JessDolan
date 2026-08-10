@@ -66,6 +66,27 @@ const workSection = defineCollection({
 	}),
 });
 
+const cv = defineCollection({
+	loader: file('src/content/cv.yaml'),
+	schema: z.object({
+		experience: z.array(
+			z.object({
+				title: z.string(),
+				datetime: z.string(),
+				description: z.string(),
+			}),
+		),
+		education: z.array(
+			z.object({
+				title: z.string(),
+				datetime: z.string(),
+				description: z.string(),
+			}),
+		),
+		skills: z.array(z.string()),
+	}),
+});
+
 const approach = defineCollection({
 	loader: file('src/content/approach.yaml'),
 	schema: z.array(
@@ -130,6 +151,7 @@ export const collections = {
 	workSection,
 	approach,
 	contact,
+	cv,
 	galleryDesign,
 	galleryPhotography,
 	galleryFreelance,

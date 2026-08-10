@@ -117,6 +117,36 @@ export default config({
       },
     }),
 
+    cv: singleton({
+      label: 'Top Secret — CV',
+      path: 'src/content/cv',
+      format: { data: 'yaml' },
+      schema: {
+        content: fields.object({
+          experience: fields.array(
+            fields.object({
+              title: fields.text({ label: 'Title' }),
+              datetime: fields.text({ label: 'Dates' }),
+              description: fields.text({ label: 'Description', multiline: true }),
+            }),
+            { label: 'Experience', itemLabel: (props) => props.fields.title.value || 'Item' },
+          ),
+          education: fields.array(
+            fields.object({
+              title: fields.text({ label: 'Title' }),
+              datetime: fields.text({ label: 'Dates' }),
+              description: fields.text({ label: 'Description', multiline: true }),
+            }),
+            { label: 'Education', itemLabel: (props) => props.fields.title.value || 'Item' },
+          ),
+          skills: fields.array(
+            fields.text({ label: 'Skill' }),
+            { label: 'Skills', itemLabel: (props) => props.value || 'Skill' },
+          ),
+        }),
+      },
+    }),
+
     approach: singleton({
       label: 'Approach',
       path: 'src/content/approach',
