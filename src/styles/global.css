@@ -7,7 +7,6 @@
 	--color-paper: #ffffff;
 	--color-surface: #ffffff;
 	--color-border: color-mix(in oklab, var(--color-ink) 14%, transparent);
-	--color-accent: #ea580c;
 	--radius-card: 24px;
 	--grid-line: color-mix(in oklab, var(--color-ink) 10%, transparent);
 }
@@ -52,13 +51,7 @@
 		--color-paper: #0d0d10;
 		--color-surface: #131318;
 		--color-border: color-mix(in oklab, var(--color-ink) 16%, transparent);
-		--color-accent: #fb923c;
 		--grid-line: color-mix(in oklab, var(--color-ink) 10%, transparent);
-	}
-
-	::selection {
-		background-color: var(--color-accent);
-		color: #fff;
 	}
 	*,
 	*::before,
@@ -768,9 +761,9 @@
 	}
 
 	.pill:hover {
-		background: var(--color-accent);
-		color: #fff;
-		border-color: var(--color-accent);
+		background: var(--color-ink);
+		color: var(--color-paper);
+		border-color: var(--color-ink);
 	}
 
 	/* Top Secret page: flashlight scene */
