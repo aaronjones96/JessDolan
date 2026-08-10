@@ -89,6 +89,17 @@ export default config({
           intro: fields.text({ label: 'Intro paragraph', multiline: true }),
           approach: fields.text({ label: 'Approach paragraph', multiline: true }),
           collaboration: fields.text({ label: 'Collaboration paragraph', multiline: true }),
+          images: fields.array(
+            fields.object({
+              image: fields.image({
+                label: 'Image',
+                directory: 'src/assets',
+                publicPath: '../assets/',
+              }),
+              alt: fields.text({ label: 'Alt text' }),
+            }),
+            { label: 'Behind the Lens images', itemLabel: (props) => props.fields.alt.value || 'Image' },
+          ),
         }),
       },
     }),
@@ -128,6 +139,12 @@ export default config({
       schema: {
         content: fields.object({
           heading: fields.text({ label: 'Heading' }),
+          image: fields.image({
+            label: 'Image',
+            directory: 'src/assets',
+            publicPath: '../assets/',
+          }),
+          imageAlt: fields.text({ label: 'Image alt text' }),
         }),
       },
     }),

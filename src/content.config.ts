@@ -41,11 +41,20 @@ const site = defineCollection({
 // Keep the wrapper key in sync with keystatic.config.ts, which writes it.
 const about = defineCollection({
 	loader: file('src/content/about.yaml'),
-	schema: z.object({
-		intro: z.string(),
-		approach: z.string(),
-		collaboration: z.string(),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			intro: z.string(),
+			approach: z.string(),
+			collaboration: z.string(),
+			images: z
+				.array(
+					z.object({
+						image: image(),
+						alt: z.string(),
+					}),
+				)
+				.optional(),
+		}),
 });
 
 const workSection = defineCollection({
@@ -69,9 +78,12 @@ const approach = defineCollection({
 
 const contact = defineCollection({
 	loader: file('src/content/contact.yaml'),
-	schema: z.object({
-		heading: z.string(),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			heading: z.string(),
+			image: image().optional(),
+			imageAlt: z.string().optional(),
+		}),
 });
 
 // gallery-*.yaml root shape: { images: [{ image, alt }] }

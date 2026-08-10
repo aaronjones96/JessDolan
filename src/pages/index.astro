@@ -32,6 +32,10 @@ const freelanceImages = (freelanceEntry[0]?.data || []).map((img) => ({
 }));
 
 const about = (await getCollection('about'))[0]?.data;
+const aboutImages = (about?.images || []).map((img) => ({
+	src: img.image,
+	alt: img.alt,
+}));
 const workSection = (await getCollection('workSection'))[0]?.data;
 const approachItems = (await getCollection('approach'))[0]?.data || [];
 const contact = (await getCollection('contact'))[0]?.data;
@@ -55,7 +59,7 @@ const contact = (await getCollection('contact'))[0]?.data;
 			label="Behind the Lens"
 			intro={about?.intro}
 			process={about?.approach}
-			images={[designImages[0], photographyImages[1]]}
+			images={aboutImages}
 		/>
 	</div>
 
@@ -89,6 +93,6 @@ const contact = (await getCollection('contact'))[0]?.data;
 	</div>
 
 	<div class="section-block">
-		<ContactCTA heading={contact?.heading} image={designImages[1]} />
+		<ContactCTA heading={contact?.heading} image={contact?.image ? { src: contact.image, alt: contact.imageAlt || '' } : undefined} />
 	</div>
 </PageLayout>

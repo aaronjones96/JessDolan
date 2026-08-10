@@ -64,6 +64,6 @@ const contact = (await getCollection('contact'))[0]?.data;
 	</div>
 
 	<div class="section-block">
-		<ContactCTA heading={contact?.heading} image={designImages[2]} />
+		<ContactCTA heading={contact?.heading} image={contact?.image ? { src: contact.image, alt: contact.imageAlt || '' } : undefined} />
 	</div>
 </PageLayout>
