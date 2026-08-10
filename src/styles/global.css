@@ -789,6 +789,11 @@
 		text-transform: uppercase;
 		color: color-mix(in oklab, white 55%, transparent);
 		pointer-events: none;
+		transition: opacity 400ms ease;
+	}
+
+	.secret-scene.is-revealed .secret-hint {
+		opacity: 0;
 	}
 
 	/* Soft warm glow that follows the flashlight, layered above the mask */
@@ -935,15 +940,41 @@
 	}
 
 	.cv-card {
+		position: relative;
 		width: 100%;
 		max-width: 760px;
 		max-height: 100%;
 		overflow-y: auto;
 		background: var(--color-paper);
 		color: var(--color-ink);
-		border-radius: 12px;
 		padding: clamp(1.75rem, 4vw, 3rem);
 		box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+	}
+
+	.cv-close {
+		position: absolute;
+		top: 0.75rem;
+		right: 0.75rem;
+		width: 2rem;
+		height: 2rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.5rem;
+		line-height: 1;
+		font-weight: 400;
+		color: var(--color-muted);
+		background: transparent;
+		border: none;
+		border-radius: 999px;
+		cursor: pointer;
+		transition: color 150ms ease, background-color 150ms ease;
+	}
+
+	.cv-close:hover,
+	.cv-close:focus-visible {
+		color: var(--color-ink);
+		background: color-mix(in oklab, var(--color-ink) 8%, transparent);
 	}
 
 	.cv-stamp {
@@ -1055,6 +1086,7 @@
 	@media (prefers-reduced-motion: reduce) {
 		.secret-folder-wrap,
 		.secret-cv,
+		.secret-hint,
 		.flashlight-overlay,
 		.flashlight-glow {
 			transition: none;
