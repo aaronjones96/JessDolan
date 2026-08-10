@@ -11,21 +11,27 @@ interface Props {
 		image?: ImageMetadata | string;
 	imageAlt?: string;
 	eyebrow?: string;
+	variant?: string;
+	cta?: string;
+	external?: boolean;
 }
 
-const { title, href, description, date, image, imageAlt = '', eyebrow } = Astro.props as Props;
+const { title, href, description, date, image, imageAlt = '', eyebrow, variant, cta, external } = Astro.props as Props;
 
 const baseDate = typeof date === 'string' ? new Date(date) : date;
 
 const articleClass = 'group relative grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-start p-5 transition duration-300 ease-in-out hover:-translate-y-1 focus-within:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-border cursor-pointer';
 
-const isExternal = /^https?:\/\//.test(href) || href.startsWith('//');
-const aProps = { href, 'aria-label': `Ver ${title}`, ...(isExternal ? { rel: 'noopener noreferrer' } : {}) };
+const isExternal = external ?? (/^https?:\/\//.test(href) || href.startsWith('//'));
+const aProps = { href, 'aria-label': cta || `View ${title}`, ...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {}) };
+const navigateJs = isExternal
+	? "window.open(this.dataset.href,'_blank','noopener,noreferrer')"
+	: "location.href=this.dataset.href";
 ---
 
-<article class={articleClass} data-href={href} role="link" tabindex="0" onclick="if(!event.target.closest('a,button,input,textarea,select,details,[role=button]')){location.href=this.dataset.href}" onkeydown="if((event.key==='Enter'||event.key===' ')&&!event.target.closest('a,button,input,textarea,select,details,[role=button]')){location.href=this.dataset.href}">
+<article class={articleClass} data-href={href} data-variant={variant} role="link" tabindex="0" onclick={`if(!event.target.closest('a,button,input,textarea,select,details,[role=button]')){${navigateJs}}`} onkeydown={`if((event.key==='Enter'||event.key===' ')&&!event.target.closest('a,button,input,textarea,select,details,[role=button]')){${navigateJs}}`}>
 
-		<a class="sr-only" {...aProps}>Ver {title}</a>
+		<a class="sr-only" {...aProps}>{cta || `View ${title}`}</a>
 
 		{image && (
 			<figure class="lg:col-span-full relative overflow-hidden bg-[color-mix(in_oklab,var(--color-ink)_4%,var(--color-surface))]">

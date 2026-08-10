@@ -35,8 +35,8 @@ const initialTime = new Intl.DateTimeFormat(locale, {
 <script>
 	const clocks = document.querySelectorAll('.clock');
 
-	const formatTime = (date, { locale, timeZone, hour12, showSeconds }) => {
-		const options = {
+	const formatTime = (date: Date, { locale, timeZone, hour12, showSeconds }: { locale: string; timeZone: string; hour12: boolean; showSeconds: boolean }) => {
+		const options: Intl.DateTimeFormatOptions = {
 			timeZone,
 			hour: '2-digit',
 			minute: '2-digit',
@@ -48,6 +48,8 @@ const initialTime = new Intl.DateTimeFormat(locale, {
 	};
 
 	clocks.forEach((el) => {
+		if (!(el instanceof HTMLElement)) return;
+
 		const timeZone = el.dataset.timezone || 'UTC';
 		const locale = el.dataset.locale || 'en-US';
 		const hour12 = el.dataset.hour12 === 'true';

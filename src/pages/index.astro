@@ -32,6 +32,7 @@ const contact = (await getCollection('contact'))[0]?.data;
 
 <PageLayout
 	title={site.author.name || 'Dasein'}
+	description={about?.intro || site.author.bio}
 >
 	<Hero
 		title={site.author.name || 'Dasein'}

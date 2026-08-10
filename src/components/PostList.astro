@@ -50,7 +50,7 @@ if (posts.length === 0) {
         '[PostList] No posts provided; fetching from "blog" collection.'
     );
     posts = posts.concat(await getCollection("blog")).sort(
-        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+        (a, b) => new Date(getPostData(b)?.pubDate ?? 0).valueOf() - new Date(getPostData(a)?.pubDate ?? 0).valueOf(),
     );
 }
 
@@ -84,13 +84,13 @@ const visiblePosts = typeof limit === "number" ? posts.slice(0, limit) : posts;
                             ? withBase(`/blog/${id}/`)
                             : p.href
                                 ? withBase(p.href)
-                                : undefined;
-                        const rawDate = p.pubDate ?? null;
+                                : withBase('/blog/');
+                        const rawDate = p.pubDate ?? undefined;
                         const pubDate = rawDate
                             ? rawDate instanceof Date
                                 ? rawDate
                                 : new Date(rawDate)
-                            : null;
+                            : undefined;
 
                         return (
                             <Card

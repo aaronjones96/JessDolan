@@ -11,16 +11,17 @@ interface Props {
 	title?: string;
 	description?: string;
 	image?: ImageMetadata;
+	noindex?: boolean;
 }
 
 const site = await getSite();
-const { title = site.author.name, description, image } = Astro.props;
+const { title = site.author.name, description, image, noindex } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
     <head>
-        <BaseHead title={title} description={description} image={image} />
+        <BaseHead title={title} description={description} image={image} noindex={noindex} />
     </head>
     <body>
         <CustomCursor />

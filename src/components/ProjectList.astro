@@ -38,6 +38,7 @@ interface RawProject {
         description?: string;
         link?: string;
         image?: any;
+        pubDate?: Date;
     };
 }
 
@@ -68,7 +69,7 @@ function isExternal(href?: string) {
 if (items.length === 0) {
     console.warn('[ProjectList] No items provided; fetching from "projects" collection.');
     items = items.concat(await getCollection("projects")).sort(
-        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+        (a, b) => (getProjectData(b)?.pubDate?.valueOf() ?? 0) - (getProjectData(a)?.pubDate?.valueOf() ?? 0),
     );
 }
 
@@ -112,6 +113,7 @@ const baseUrl =
                                 description={p.description}
                                 variant="project"
                                 cta="View project →"
+                                external={external}
                             />
                         );
                     })

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /top-secret
+
+Sitemap: https://jessdolan.netlify.app/sitemap-index.xml

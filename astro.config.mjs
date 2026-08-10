@@ -17,7 +17,17 @@ import netlify from "@astrojs/netlify";
 export default defineConfig({
   site: "https://jessdolan.netlify.app",
   adapter: netlify(),
-  integrations: [mdx(), sitemap(), pagefind(), icon(), react(), markdoc(), keystatic()],
+  integrations: [
+    mdx(),
+    sitemap({
+      filter: (page) => !page.includes("/top-secret") && !page.includes("/404"),
+    }),
+    pagefind(),
+    icon(),
+    react(),
+    markdoc(),
+    keystatic(),
+  ],
 
   vite: {
     plugins: [tailwindcss()],
