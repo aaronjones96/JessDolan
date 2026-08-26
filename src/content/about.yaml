@@ -12,7 +12,7 @@ content:
     translating their vision into polished, purposeful work that resonates with
     audiences and delivers results.
   images:
-    - image: ../assets/Design/1.png
-      alt: "Design 1"
-    - image: "../assets/Photography files/2.png"
-      alt: "Photography 2"
+    - image: ../assets/content/about-1.png
+      alt: Design 1
+    - image: ../assets/content/about-2.png
+      alt: Photography 2

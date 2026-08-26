@@ -1,7 +1,7 @@
 images:
   - image: "../assets/Photography files/1.png"
     alt: "Photography 1"
-  - image: "../assets/Photography files/2.png"
+  - image: ../assets/content/images/1/image.png
     alt: "Photography 2"
   - image: "../assets/Photography files/3.png"
     alt: "Photography 3"
