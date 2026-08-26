@@ -1,7 +1,7 @@
 images:
   - image: ../assets/content/images/0/image.png
     alt: "Design 1"
-  - image: ../assets/Design/2.png
+  - image: ../assets/content/image.png
     alt: "Design 2"
   - image: ../assets/Design/3.png
     alt: "Design 3"
