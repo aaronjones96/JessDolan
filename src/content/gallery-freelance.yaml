@@ -1,9 +1,9 @@
 images:
-  - image: ../assets/content/freelance-1.png
+  - image: ../assets/content/freelance-1.jpg
     alt: "Freelance 1"
-  - image: ../assets/content/freelance-2.png
+  - image: ../assets/content/freelance-2.jpg
     alt: "Freelance 2"
-  - image: ../assets/content/freelance-3.png
+  - image: ../assets/content/freelance-3.jpg
     alt: "Freelance 3"
-  - image: ../assets/content/freelance-4.png
+  - image: ../assets/content/freelance-4.jpg
     alt: "Freelance 4"
